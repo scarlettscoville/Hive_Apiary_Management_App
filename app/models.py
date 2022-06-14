@@ -38,8 +38,7 @@ class User(UserMixin, db.Model):
     def get_icon_url(self):
         return f'https://avatars.dicebear.com/api/initials/{self.first_name}-{self.last_name}.svg'
 
-class Inspection(db.Model):
-    
+# class Inspection(db.Model):
 
 @login.user_loader
 def load_user(id):

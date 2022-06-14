@@ -11,7 +11,7 @@ login = LoginManager()
 db = SQLAlchemy()
 migrate = Migrate()
 
-def creat_app(config_class=Config):
+def create_app(config_class=Config):
     #Init the app
     app = Flask(__name__)
     #Link in the Config
