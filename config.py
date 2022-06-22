@@ -6,3 +6,6 @@ class Config():
     SECRET_KEY = os.environ.get("SECRET_KEY")
     SQLALCHEMY_DATABASE_URI=os.environ.get("SQLALCHEMY_DATABASE_URI")
     SQLALCHEMY_TRACK_MODIFICATIONS=os.environ.get("SQLALCHEMY_TRACK_MODIFICATIONS")
+    REGISTERED_USERS ={
+        'scarlettscoville@gmail.com':{"first_name":"scarlett", "last_name":"scoville", "password":"abc"}
+    }

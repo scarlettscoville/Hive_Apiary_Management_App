@@ -29,7 +29,7 @@ def hive():
             new_hive_object.save()
 
         except:
-            flash("There was an unexpected error saving your hive. Please try again later.", "danger")
+            flash("There was an unexpected error saving your hive information. Please try again later.", "danger")
             return render_template('hive.html.j2', form=form)
         flash('Hive information saved.', 'success')
         return redirect(url_for('main.index'))
