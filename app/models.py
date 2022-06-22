@@ -3,6 +3,19 @@ from flask_login import UserMixin
 from datetime import datetime as dt
 from werkzeug.security import generate_password_hash, check_password_hash
 
+class Hive(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    hive_name = db.Column(db.String)
+    queen = db.Column(db.String)
+    health = db.Column(db.String)
+    temperment = db.Column(db.String)
+    notes = db.Column(db.Text)
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String)
@@ -11,7 +24,7 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String)
     created_on = db.Column(db.DateTime, default=dt.utcnow)
     hive = db.relationship('Hive',
-                    secondary = '',
+                    secondary = 'hive',
                     backref = 'users',
                     lazy = 'dynamic'
                     )
@@ -45,21 +58,6 @@ class User(UserMixin, db.Model):
 
     def remove_hive(self, hive):
         self.hive.remove(hive)
-        db.session.commit()
-
-    
-
-class Hive (db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    hive_name = db.Column(db.String)
-    queen = db.Column(db.String)
-    health = db.Column(db.String)
-    temperment = db.Column(db.String)
-    notes = db.Column(db.Text)
-
-    def save(self):
-        db.session.add(self)
         db.session.commit()
 
 
