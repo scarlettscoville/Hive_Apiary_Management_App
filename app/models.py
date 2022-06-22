@@ -1,5 +1,5 @@
 from app import db, login
-from flask_login import UserMixin, current_user
+from flask_login import UserMixin
 from datetime import datetime as dt
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -10,8 +10,11 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String, unique=True, index=True)
     password = db.Column(db.String)
     created_on = db.Column(db.DateTime, default=dt.utcnow)
-    icon = db.Column(db.Integer)
-    apiary = db.Column(db.String)
+    hive = db.relationship('Hive',
+                    secondary = '',
+                    backref = 'users',
+                    lazy = 'dynamic'
+                    )
 
     def __repr__(self):
         return f'<User: {self.email} | {self.id}>'
@@ -30,31 +33,35 @@ class User(UserMixin, db.Model):
         self.last_name = data['last_name']
         self.email = data['email']
         self.password = self.hash_password(data['password'])
-        self.icon = data['icon']
-        self.apiary = data['apiary']
-
+        self.hive = data['hive']
+        
     def save(self):
         db.session.add(self)
         db.session.commit()
 
-    def get_icon_url(self):
-        return f'https://avatars.dicebear.com/api/initials/{self.first_name}-{self.last_name}.svg'
+    def add_hive(self, hive):
+        self.hive.append(hive)
+        db.session.commit()
+
+    def remove_hive(self, hive):
+        self.hive.remove(hive)
+        db.session.commit()
+
+    
 
 class Hive (db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     hive_name = db.Column(db.String)
-
-class Inspection(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    hive_id = db.Column(db.Integer, db.ForeignKey('hive.id'))
-    date = db.Column(db.DateTime, default=dt.utcnow)
-    colony_condition = db.Column(db.String)
-    activity = db.Column(db.String)
-    laying_pattern = db.Column(db.String)
+    queen = db.Column(db.String)
+    health = db.Column(db.String)
     temperment = db.Column(db.String)
-    visible = db.Column(db.String)
     notes = db.Column(db.Text)
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
 
 @login.user_loader
 def load_user(id):

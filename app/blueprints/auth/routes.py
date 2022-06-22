@@ -4,10 +4,11 @@ from .import bp as auth
 from ...models import User
 from flask_login import current_user, logout_user, login_user, login_required
 
-@auth.route('/login', methods=['GET', 'POST'])
+@auth.route('/login', methods=['GET','POST'])
 def login():
     form = LoginForm()
     if request.method=='POST' and form.validate_on_submit():
+        # Doing the Login stuff :)
         email = form.email.data.lower()
         password = form.password.data
 
@@ -18,7 +19,7 @@ def login():
             return redirect(url_for('main.index'))
         flash('Incorrect Email/Password combo. Please try again.', 'danger')
         return render_template('login.html.j2', form=form)
-    return render_template('login.html.j2', form=form)
+    return render_template("login.html.j2", form=form)
 
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
@@ -29,15 +30,14 @@ def register():
                 "first_name" : form.first_name.data.title(),
                 "last_name" : form.last_name.data.title(),
                 "email" : form.email.data.lower(),
-                "password" : form.password.data,
-                "icon" : form.icon.data
+                "password" : form.password.data
             }
             new_user_object = User()
             new_user_object.from_dict(new_user_data)
             new_user_object.save()
 
         except:
-            flash('There was an unexpected error creating your account. Please try again later.', 'danger')
+            flash("There was an unexpected error creating your account. Please try again later.", "danger")
             return render_template('register.html.j2', form=form)
         flash('You have successfully registered with Hive!', 'success')
         return redirect(url_for('auth.login'))
@@ -48,11 +48,10 @@ def edit_profile():
     form = EditProfileForm()
     if request.method == 'POST' and form.validate_on_submit():
         new_user_data={
-            "first_name":form.first_name.data.title(),
-            "last_name":form.last_name.data.title(),
-            "email":form.email.data.lower(),
-            "password":form.password.data,
-            "icon":current_user.icon
+                "first_name":form.first_name.data.title(),
+                "last_name": form.last_name.data.title(),
+                "email":form.email.data.lower(),
+                "password":form.password.data,
         }
         user = User.query.filter_by(email=new_user_data["email"]).first()
         if user and user.email != current_user.email:
@@ -63,10 +62,11 @@ def edit_profile():
             current_user.save()
             flash('Profile successfully updated.', 'success')
         except:
-            flash('There was an unexpected error while trying to update your profile. Please try again later.', 'danger')
+            flash('There was an unexpected error trying to update your profile. Please try again.', 'danger')
             return redirect(url_for('auth.edit_profile'))
-        return redirect (url_for('main.index'))
+        return redirect(url_for('main.index'))
     return render_template('register.html.j2', form=form)
+
 
 @auth.route('/logout')
 @login_required
