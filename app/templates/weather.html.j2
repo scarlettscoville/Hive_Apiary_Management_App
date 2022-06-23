@@ -1,9 +1,7 @@
 {% extends 'base.html.j2' %}
 {% block head %}
-<head>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js" defer></script>
     <script src="./weather.js" defer></script>
-</head>
 {% endblock %}
 {% block title %}
   Weather
@@ -19,7 +17,8 @@
     </div>
     <div class="container mt-5 p-3 col-10">
         <div class="col">
-                <form class="m-3" id="search">
+                <form class="m-3" id="search" method='POST'>
+                    {{form.hidden_tag()}}
                     <label for="Zip" id="zip" class="form-label">Zip Code: </label>
                     <input name="zip" class="form-control" id="locationzip" placeholder="Enter the Zip Code where your Apiary is Located">
                     <button type="submit" class="btn btn-warning form-control mt-2">Search</button>
@@ -28,37 +27,23 @@
 
         <div class="row row-cols-1 row-cols-md-2 g-4">
             <div class="col">    
-                <div class="card text-bg-danger mb-3">
+                <div class="card text-bg-dark mb-3">
                     <div class="card-body">
-                    <h5 class="card-title">High Temperature (°F)</h5>
-                    <p class="card-text" id="high_temp"></p>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card text-bg-primary mb-3">
-                    <div class="card-body">
-                    <h5 class="card-title">Low Temperature (°F)</h5>
-                    <p class="card-text" id="low_temp"></p>
+                    <h5 class="card-title">Current Temperature (°F)</h5>
+                    <p class="card-text" id="temp">{{forecast.temp}}</p>
                     </div>
                 </div>
             </div>
             <div class="col">
                 <div class="card text-bg-dark mb-3">
                     <div class="card-body">
-                    <h5 class="card-title">Current Forecast</h5>
-                    <p class="card-text" id="forecast"></p>
+                    <h5 class="card-title">Current Weather</h5>
+                    <p class="card-text" id="weather">{{forecast.weather}}</p>
                     </div>
                 </div>
             </div>
-            <div class="col">
-                <div class="card text-bg-dark mb-3">
-                    <div class="card-body">
-                    <h5 class="card-title">Current Humidity</h5>
-                    <p class="card-text" id="humidity"></p>
-                    </div>
-                </div>
-            </div>
+        
+    
         </div>
     </div>
     

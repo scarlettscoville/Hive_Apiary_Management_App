@@ -1,11 +1,10 @@
+import os
 from flask import render_template, request, flash, redirect, url_for
 from .forms import HiveForm, WeatherForm
 from .import bp as main
 from flask_login import login_required, current_user
 from app.models import User, Hive, Apiary
-import json
-import urllib.request
-import os
+import requests
 
 
 @main.route('/', methods = ['GET'])
@@ -61,24 +60,27 @@ def apiary():
     hive_list=hives
     return render_template('apiary.html.j2', hives=hive_list)
 
-@main.route('/weather', methods=['GET'])
+@main.route('/weather', methods=['GET', 'POST'])
 @login_required
 def weather():
-    form = WeatherForm()
-    request.method == 'POST':
+    form=WeatherForm()
+    forecast_dict={}
+    if request.method == 'POST' and form.validate_on_submit():
         zip = form.zip.data
         api = os.environ.get('API_SECRET')
-        source = urllib.request.urlopen('http://api.openweathermap.org/data/2.5/weather?q ='+ zip + '&appid =' + api).read() 
-
-        list_of_data = json.loads(source)
-
-        data = {
-            "temp": str(list_of_data['main']['temp']) + 'k',
-            "pressure": str(list_of_data['main']['pressure']),
-            "humidity": str(list_of_data['main']['humidity']),
-            "forecast": str(list_of_data['main']['']
+        url = f'https://api.openweathermap.org/data/2.5/weather?zip={zip}&appid={api}&units=imperial'
+        response=requests.get(url)
+        forecast=response.json()
+        print(forecast)
+        forecast_dict={
+            "temp": forecast["main"]["temp"],
+            "weather": forecast["weather"][0]["main"]         
         }
-    return render_template('weather.html.j2', data=data)
+        print(forecast_dict)
+        return render_template('weather.html.j2', form=form, forecast=forecast_dict)
+
+    forecast=[]
+    return render_template('weather.html.j2', form=form, forecast=forecast_dict)
 
 
 @main.route('/remove_hive/<int:id>')
