@@ -8,13 +8,15 @@
 {% endblock %}
 
 {% block content %}
-<h1>
+<div class="body">
+<h2>
   {% if current_user.is_authenticated %}
     Edit Profile
   {% else %}
     Register
   {% endif %}
-</h1>
+</h2>
+<br>
 <form action="{{url_for('auth.edit_profile') if current_user.is_authenticated else url_for('auth.register')}}" method = "POST">
 
   {{form.hidden_tag()}}
@@ -63,4 +65,5 @@
   {{form.submit(class="btn btn-warning form-control")}}
   </div>
 </form>
+</div>
 {% endblock %}

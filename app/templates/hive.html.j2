@@ -4,6 +4,7 @@ Hives
 {% endblock %}
 
 {% block content %}
+<div class="body">
 <h2>Add Hives</h2>
 <form action="{{url_for('main.hive')}}" method = "POST">
 
@@ -52,6 +53,7 @@ Hives
   {{form.submit(class="btn btn-warning form-control")}}
   </div>
 </form>
+</div>
 
 {% endblock %}
 
