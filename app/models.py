@@ -38,7 +38,6 @@ class User(UserMixin, db.Model):
         self.last_name = data['last_name']
         self.email = data['email']
         self.password = self.hash_password(data['password'])
-        self.hive = data['hive']
         
     def save(self):
         db.session.add(self)
@@ -61,7 +60,7 @@ class Hive(db.Model):
     notes = db.Column(db.Text)
 
     def __repr__(self):
-        return f'<Hive: {self.id} | {self.hive_name}>'
+        return f'<Hive: {self.hive_id} | {self.hive_name}>'
 
     def hive_from_dict(self, hive_data):
         self.hive_name = hive_data['hive_name']

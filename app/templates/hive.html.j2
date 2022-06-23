@@ -1,0 +1,58 @@
+{% extends 'base.html.j2' %}
+{% block title %}
+Hives
+{% endblock %}
+
+{% block content %}
+<h2>Add Hives</h2>
+<form action="{{url_for('main.hive')}}" method = "POST">
+
+  {{form.hidden_tag()}}
+  <div>
+  {{form.hive_name.label(class="form-label")}}
+  {{form.hive_name(class="form-control")}}
+  {% for error in form.hive_name.errors %}
+    <small style="color:red;">{{error}}</small>
+  {% endfor %}
+  </div>
+  <br>
+  <div>
+  {{form.queen.label(class="form-label")}}
+  {{form.queen(class="form-control")}}
+  {% for error in form.queen.errors %}
+    <small style="color:red;">{{error}}</small>
+  {% endfor %}
+  </div>
+  <br>
+  <div>
+  {{form.health.label(class="form-label")}}
+  {{form.health(class="form-control")}}
+  {% for error in form.health.errors %}
+    <small style="color:red;">{{error}}</small>
+  {% endfor %}
+  </div>
+  <br>
+  <div>
+  {{form.temperment.label(class="form-label")}}
+  {{form.temperment(class="form-control")}}
+  {% for error in form.temperment.errors %}
+    <small style="color:red;">{{error}}</small>
+  {% endfor %}
+  </div>
+  <br>
+  <div>
+  {{form.notes.label(class="form-label")}}
+  {{form.notes(class="form-control")}}
+  {% for error in form.notes.errors %}
+    <small style="color:red;">{{error}}</small>
+  {% endfor %}
+  </div>
+  <br>
+  <div>
+  {{form.submit(class="btn btn-warning form-control")}}
+  </div>
+</form>
+
+{% endblock %}
+
+    

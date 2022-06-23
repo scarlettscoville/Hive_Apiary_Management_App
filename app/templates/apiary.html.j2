@@ -1,0 +1,44 @@
+{% extends 'base.html.j2' %}
+{% block title %}
+Apiary
+{% endblock %}
+
+{% block content %}
+<div class="body">
+<h2>Your Apiary</h2>
+
+{% for hiv in hives %}
+  <div class="card" style="width: 18rem; display: inline-block; width: 20%">
+    <div class="card-body">
+      <h4 class="card-title text-center">{{hiv.hive_name}}</h4>
+    </div>
+    <table class="table table-borderless" style="text-align: left; width: 75%; margin:5px auto;">
+      <tbody>
+      <tr>
+        <td scope="col">Queen Status: </td>
+        <td>{{hiv.queen}}</td>
+      </tr>
+      <tr>
+        <td scope="col">Health: </td>
+        <td>{{hiv.health}}</td>
+      </tr>
+      <tr>
+        <td scope="col">Temperment:</td>
+        <td>{{hiv.temperment}}</td>
+      </tr>
+      <tr>
+        <td scope="col">Notes: </td>
+        <td>{{hiv.notes}}</td>
+      </tr>
+      </tbody>
+    </table>
+
+    <div class="card-body">
+      <a href="{{url_for('main.remove_hive', id=hiv.hive_id)}}" class="card-link">Delete</a>
+    </div>
+  </div>
+{% endfor %}
+
+</div>
+
+{% endblock %}
