@@ -19,6 +19,9 @@ def hive():
         
         new_hive_data={
             "hive_name" : form.hive_name.data,
+            "numOfDeeps" : form.numOfDeeps.data,
+            "numOfMediums" : form.numOfMediums.data,
+            "numOfShallows" : form.numOfShallows.data,
             "queen" : form.queen.data,
             "health" : form.health.data,
             "temperment" : form.temperment.data,
