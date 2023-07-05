@@ -54,6 +54,9 @@ class User(UserMixin, db.Model):
 class Hive(db.Model):
     hive_id = db.Column(db.Integer, primary_key=True)
     hive_name = db.Column(db.String)
+    numOfDeeps = db.Column(db.String)
+    numOfMediums = db.Column(db.String)
+    numOfShallows = db.Column(db.String)
     queen = db.Column(db.String)
     health = db.Column(db.String)
     temperment = db.Column(db.String)
@@ -64,6 +67,9 @@ class Hive(db.Model):
 
     def hive_from_dict(self, hive_data):
         self.hive_name = hive_data['hive_name']
+        self.numOfDeeps = hive_data['numOfDeeps']
+        self.numOfMediums = hive_data['numOfMediums']
+        self.numOfShallows = hive_data['numOfShallows']
         self.queen = hive_data['queen']
         self.health = hive_data['health']
         self.temperment = hive_data['temperment']
